@@ -46,6 +46,7 @@ function displayTimer() {
   alarmsArray.forEach((alarm, index) => {
     if (alarm.isActive) {
       if (`${alarm.alarmHour}:${alarm.alarmMinute}` === `${hours}:${minutes}`) {
+        document.getElementsByClassName("wrapper")[0].classList.add("playing");
         alarmSound.play();
         alarmSound.loop = true;
         
@@ -134,6 +135,7 @@ const stopAlarm = (e) => {
   if (exists) {
     alarmsArray[index].isActive = false;
     alarmSound.pause();
+    document.getElementsByClassName("wrapper")[0].classList.remove("playing");
   }
 };
 
@@ -157,9 +159,8 @@ window.onload = () => {
   minuteInput.value = appendZero(initialMinute);
 };
 
-//toggle
 
-
+//Toggle
 function toggleShow(){
   let modal = document.getElementById("Modal");
   let boton = document.getElementsByClassName("toggle");
@@ -177,4 +178,13 @@ function toggleShow(){
   }
 
 
+//Fecha
+var dia = document.querySelector('.dia')
+var mes = document.querySelector('.mes')
+var año = document.querySelector('.año')
 
+var fecha = new Date()
+
+dia.innerHTML = fecha.getDate()
+mes.innerHTML = fecha.getMonth()+1
+año.innerHTML = fecha.getFullYear()
