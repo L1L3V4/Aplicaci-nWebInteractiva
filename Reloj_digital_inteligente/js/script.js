@@ -6,15 +6,40 @@ const activeAlarms = document.querySelector(".activeAlarms");
 const setAlarm = document.getElementById("set");
 let alarmsArray = [];
 let alarmSound = new Audio("./alarm.mp3");
-
+let alarmasLocal =[];
 let initialHour = 0,
   initialMinute = 0,
   alarmIndex = 0;
 
-//Append zeroes for single digit
+var bbdd = window.localStorage;
+
+var tem = document.querySelector("template");
+
+if (bbdd.getItem("alarmas")) {
+  console.log("Hay alarmas");
+  alarmasLocal = JSON.parse(bbdd.getItem("alarmas"));
+}else{
+  console.log("No hay alarmas");
+  bbdd.setItem("alarmas", JSON.stringify(alarmasLocal));
+}
+
+//Inicializamos las alarmas guardadas
+function mostrarAlarmas(){
+  console.log(alarmasLocal.length);
+  for(i = 0; i < alarmasLocal.length;i++){
+    alarma = alarmasLocal[i];
+    let alarmObj = {};
+      alarmObj.id = alarma.id.toString();
+      alarmObj.alarmHour = alarma.alarmHour;
+      alarmObj.alarmMinute = alarma.alarmMinute;
+      alarmObj.isActive = false;
+      createAlarm(alarmObj);
+  }
+}
+//Añadimos cero si el numero es de un solo digito
 const appendZero = (value) => (value < 10 ? "0" + value : value);
 
-//Search for value in object
+//Buscamos el valor en el objeto alarma
 const searchObject = (parameter, value) => {
   let alarmObject,
     objIndex,
@@ -30,7 +55,7 @@ const searchObject = (parameter, value) => {
   return [exists, alarmObject, objIndex];
 };
 
-//Display Time
+//Mostramos la hora
 function displayTimer() {
   let date = new Date();
   let [hours, minutes, seconds] = [
@@ -39,10 +64,10 @@ function displayTimer() {
     appendZero(date.getSeconds()),
   ];
 
-  //Display time
+  
   timerRef.innerHTML = `${hours}:${minutes}:${seconds}`;
 
-  //Alarm
+  //Alarma
   alarmsArray.forEach((alarm, index) => {
     if (alarm.isActive) {
       if (`${alarm.alarmHour}:${alarm.alarmMinute}` === `${hours}:${minutes}`) {
@@ -71,18 +96,16 @@ minuteInput.addEventListener("input", () => {
   minuteInput.value = inputCheck(minuteInput.value);
 });
 
-//Create alarm div
+//Creamos el div de la alrma
 
 const createAlarm = (alarmObj) => {
-  //Keys from object
   const { id, alarmHour, alarmMinute } = alarmObj;
-  //Alarm div
   let alarmDiv = document.createElement("div");
   alarmDiv.classList.add("alarm");
   alarmDiv.setAttribute("data-id", id);
   alarmDiv.innerHTML = `<span>${alarmHour}: ${alarmMinute}</span>`;
-
-  //checkbox
+  
+  //Checkbox
   let checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
   checkbox.addEventListener("click", (e) => {
@@ -93,7 +116,7 @@ const createAlarm = (alarmObj) => {
     }
   });
   alarmDiv.appendChild(checkbox);
-  //Delete button
+  //Boton de borrar
   let deleteButton = document.createElement("button");
   deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
   deleteButton.classList.add("deleteButton");
@@ -102,24 +125,26 @@ const createAlarm = (alarmObj) => {
   activeAlarms.appendChild(alarmDiv);
 };
 
-//Set Alarm
+//Preparamos la alarma
 setAlarm.addEventListener("click", () => {
   alarmIndex += 1;
 
-  //alarmObject
+  //Objeto alarma
   let alarmObj = {};
   alarmObj.id = `${alarmIndex}_${hourInput.value}_${minuteInput.value}`;
   alarmObj.alarmHour = hourInput.value;
   alarmObj.alarmMinute = minuteInput.value;
   alarmObj.isActive = false;
-  console.log(alarmObj);
-  alarmsArray.push(alarmObj);
   createAlarm(alarmObj);
+  alarmsArray.push(alarmObj);
+  alarmasLocal.push(alarmObj);
+  bbdd.setItem("alarmas",JSON.stringify(alarmasLocal));
+  
   hourInput.value = appendZero(initialHour);
   minuteInput.value = appendZero(initialMinute);
 });
 
-//Start Alarm
+//Inicio alarma
 const startAlarm = (e) => {
   let searchId = e.target.parentElement.getAttribute("data-id");
   let [exists, obj, index] = searchObject("id", searchId);
@@ -128,7 +153,7 @@ const startAlarm = (e) => {
   }
 };
 
-//Stop alarm
+//Parar alarma
 const stopAlarm = (e) => {
   let searchId = e.target.parentElement.getAttribute("data-id");
   let [exists, obj, index] = searchObject("id", searchId);
@@ -139,13 +164,24 @@ const stopAlarm = (e) => {
   }
 };
 
-//delete alarm
+//Borrar alarma
 const deleteAlarm = (e) => {
   let searchId = e.target.parentElement.parentElement.getAttribute("data-id");
+  console.log("Busca el id: " +searchId);
   let [exists, obj, index] = searchObject("id", searchId);
-  if (exists) {
+  if (exists ) {
     e.target.parentElement.parentElement.remove();
     alarmsArray.splice(index, 1);
+    console.log(alarmsArray);
+    
+    alarmasLocal.splice(index,1);
+    bbdd.setItem("alarmas",JSON.stringify(alarmasLocal));
+    console.log(alarmasLocal);
+    
+  }else{
+    console.log("No existe");
+    console.log(alarmsArray);
+    console.log(alarmasLocal);
   }
 };
 
@@ -185,6 +221,10 @@ var año = document.querySelector('.año')
 
 var fecha = new Date()
 
-dia.innerHTML = fecha.getDate()
-mes.innerHTML = fecha.getMonth()+1
-año.innerHTML = fecha.getFullYear()
+dia.innerHTML = fecha.getDate();
+mes.innerHTML = fecha.getMonth()+1;
+año.innerHTML = fecha.getFullYear();
+
+//Guardamos alarmas en el almacenamiento local
+
+mostrarAlarmas();
