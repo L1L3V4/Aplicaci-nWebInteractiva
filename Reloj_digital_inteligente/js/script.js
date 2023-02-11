@@ -12,7 +12,7 @@ let initialHour = 0,
   alarmIndex = 0;
 
 var bbdd = window.localStorage;
-
+let Tid= 0;
 var tem = document.querySelector("template");
 
 if (bbdd.getItem("alarmas")) {
@@ -29,9 +29,11 @@ function mostrarAlarmas(){
   for(i = 0; i < alarmasLocal.length;i++){
     alarma = alarmasLocal[i];
     let alarmObj = {};
-      alarmObj.id = alarma.id.toString();
+      //alarmObj.id = alarma.id;
       alarmObj.alarmHour = alarma.alarmHour;
       alarmObj.alarmMinute = alarma.alarmMinute;
+      alarmObj.id =`${i+1}_${alarmObj.alarmHour}_${alarmObj.alarmMinute}`;
+      //alarmObj.id =`${alarmIndex}_${hourInput.value}_${minuteInput.value}`
       alarmObj.isActive = false;
       createAlarm(alarmObj);
   }
@@ -147,6 +149,7 @@ setAlarm.addEventListener("click", () => {
 //Inicio alarma
 const startAlarm = (e) => {
   let searchId = e.target.parentElement.getAttribute("data-id");
+  alarmsArray = [...alarmsArray, ...alarmasLocal];
   let [exists, obj, index] = searchObject("id", searchId);
   if (exists) {
     alarmsArray[index].isActive = true;
@@ -156,6 +159,7 @@ const startAlarm = (e) => {
 //Parar alarma
 const stopAlarm = (e) => {
   let searchId = e.target.parentElement.getAttribute("data-id");
+  alarmsArray = [...alarmsArray, ...alarmasLocal];
   let [exists, obj, index] = searchObject("id", searchId);
   if (exists) {
     alarmsArray[index].isActive = false;
@@ -168,12 +172,17 @@ const stopAlarm = (e) => {
 const deleteAlarm = (e) => {
   let searchId = e.target.parentElement.parentElement.getAttribute("data-id");
   console.log("Busca el id: " +searchId);
+  alarmsArray = [...alarmsArray, ...alarmasLocal];
   let [exists, obj, index] = searchObject("id", searchId);
-  if (exists ) {
+  if (exists) {
+    alarmsArray[index].isActive = false;
+    alarmSound.pause();
+    document.getElementsByClassName("wrapper")[0].classList.remove("playing");
     e.target.parentElement.parentElement.remove();
-    alarmsArray.splice(index, 1);
+    alarmsArray.splice(index,1);
     console.log(alarmsArray);
     
+    console.log(alarmasLocal);
     alarmasLocal.splice(index,1);
     bbdd.setItem("alarmas",JSON.stringify(alarmasLocal));
     console.log(alarmasLocal);
