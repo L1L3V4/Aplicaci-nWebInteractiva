@@ -236,3 +236,13 @@ h1{
   }
 
 }
+
+/*Modo Oscuro*/
+i#toggleDark{
+  font-size: 2.1vh;
+  cursor: pointer;
+  position: absolute;
+  top: 11%;
+  left: 7%;
+  transform: translate(-50%, -50%);
+}

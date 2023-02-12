@@ -222,7 +222,6 @@ function toggleShow(){
     
   }
 
-
 //Fecha
 var dia = document.querySelector('.dia')
 var mes = document.querySelector('.mes')
@@ -235,5 +234,24 @@ mes.innerHTML = fecha.getMonth()+1;
 año.innerHTML = fecha.getFullYear();
 
 //Guardamos alarmas en el almacenamiento local
-
 mostrarAlarmas();
+
+//Modo oscuro
+const toggle = document.getElementById('toggleDark');
+const body = document.querySelector('body');
+
+var fondo = document.querySelector('.area');
+var wrapper = document.querySelector('.wrapper');
+
+toggle.addEventListener('click', function(){
+    this.classList.toggle('fa-moon');
+    if(this.classList.toggle('fa-solid fa-sun')){
+        i.style.color = 'black';
+        body.style.transition = '2s';
+    }else{
+        document.querySelector(".area").style.backgroundColor = "red";
+        fondo.style.background = 'black';
+        body.style.color = 'white';
+        body.style.transition = '2s';
+    }
+});
