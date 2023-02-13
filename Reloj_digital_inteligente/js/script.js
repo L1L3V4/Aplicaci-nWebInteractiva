@@ -269,7 +269,7 @@ toggle.addEventListener('click', function(){
         boton.style.transition = '2s';
         nueva.style.transition = '2s';
         fondo.style.transition = '2s';
-        del.style.transition = '2s';
+        del.style.transition   = '2s';
         icono.style.transition = '2s';
         
     }else{
@@ -283,7 +283,7 @@ toggle.addEventListener('click', function(){
         fondo.style.transition = '2s';
         boton.style.transition = '2s';
         slide.style.transition = '2s';
-        del.style.transition = '2s';
+        del.style.transition   = '2s';
         nueva.style.transition = '2s';
         icono.style.transition = '2s';
     }
