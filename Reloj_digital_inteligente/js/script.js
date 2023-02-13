@@ -110,6 +110,7 @@ const createAlarm = (alarmObj) => {
   //Checkbox
   let checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("class", "slide");
   checkbox.addEventListener("click", (e) => {
     if (e.target.checked) {
       startAlarm(e);
@@ -242,16 +243,32 @@ const body = document.querySelector('body');
 
 var fondo = document.querySelector('.area');
 var wrapper = document.querySelector('.wrapper');
-
+var boton  =document.getElementsByClassName('toggle')[0];
+var slide  =document.getElementsByClassName('slide')[0];
+var slidechecked = document.getElementsByClassName('.alarm input[type="checkbox"]:checked:before')[0];
+var del = document.getElementsByClassName('deleteButton')[0];
 toggle.addEventListener('click', function(){
     this.classList.toggle('fa-moon');
-    if(this.classList.toggle('fa-solid fa-sun')){
-        i.style.color = 'black';
-        body.style.transition = '2s';
+    if(this.classList.toggle('fa-sun')){
+      console.log("Cambiamos a sol")
+        fondo.style.setProperty("background-color", '#4e54c8');
+        boton.style.setProperty("background-color", '#4e54c8');
+        slide.style.setProperty("background-color", '#d2e2ff');
+        slide.style.setProperty("color", '#4e54c8');
+        del.style.setProperty("color", '#4e54c8');
+        boton.style.transition = '2s';
+        fondo.style.transition = '2s';
+        del.style.transition = '2s';
     }else{
-        document.querySelector(".area").style.backgroundColor = "red";
+      console.log("Cambiamos a luna")
         fondo.style.background = 'black';
-        body.style.color = 'white';
-        body.style.transition = '2s';
+        boton.style.setProperty("background-color", 'black');
+        slide.style.setProperty("background-color", '#d2e2ff');
+        slide.style.setProperty("color", 'black');
+        del.style.setProperty("color", 'black');
+        fondo.style.transition = '2s';
+        boton.style.transition = '2s';
+        slide.style.transition = '2s';
+        del.style.transition = '2s';
     }
-});
+}); 
