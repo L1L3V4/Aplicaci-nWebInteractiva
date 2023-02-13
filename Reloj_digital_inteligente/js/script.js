@@ -125,6 +125,8 @@ const createAlarm = (alarmObj) => {
   deleteButton.classList.add("deleteButton");
   if(toggle.classList.contains('fa-moon')){
     deleteButton.style.setProperty("color",'black');
+  }else{
+    deleteButton.style.setProperty("color",'#4e54c8')
   }
   deleteButton.addEventListener("click", (e) => deleteAlarm(e));
   alarmDiv.appendChild(deleteButton);
@@ -142,6 +144,7 @@ setAlarm.addEventListener("click", () => {
   alarmObj.alarmMinute = minuteInput.value;
   alarmObj.isActive = false;
   createAlarm(alarmObj);
+  //Guardamos alarma en localstorage
   alarmsArray.push(alarmObj);
   alarmasLocal.push(alarmObj);
   bbdd.setItem("alarmas",JSON.stringify(alarmasLocal));
@@ -246,8 +249,6 @@ mostrarAlarmas();
 var fondo = document.querySelector('.area');
 var wrapper = document.querySelector('.wrapper');
 var boton  =document.getElementsByClassName('toggle')[0];
-var slide  =document.getElementsByClassName('slide')[0];
-var slidechecked = document.getElementsByClassName('.alarm input[type="checkbox"]:checked:before')[0];
 var del = document.getElementsByClassName('deleteButton')[0];
 var nueva = document.getElementsByClassName('Añadir')[0];
 var icono = document.getElementsByTagName('i');
@@ -263,7 +264,6 @@ toggle.addEventListener('click', function(){
         fondo.style.setProperty("background-color", '#4e54c8');
         boton.style.setProperty("background-color", '#4e54c8');
         nueva.style.setProperty("background-color", '#4e54c8');
-        slide.style.setProperty("color", '#4e54c8');
         del.style.setProperty("color", '#4e54c8');
         icono.style.setProperty("color",'#4e54c8');
         boton.style.transition = '2s';
@@ -278,7 +278,6 @@ toggle.addEventListener('click', function(){
         fondo.style.background = 'black';
         nueva.style.setProperty("background-color", 'black');
         boton.style.setProperty("background-color", 'black');
-        slide.style.setProperty("color", 'black');
         del.style.setProperty("color", 'black');
         icono.style.setProperty("color",'default');
         fondo.style.transition = '2s';
