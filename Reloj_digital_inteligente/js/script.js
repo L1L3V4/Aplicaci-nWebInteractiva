@@ -4,6 +4,8 @@ const hourInput = document.getElementById("hourInput");
 const minuteInput = document.getElementById("minuteInput");
 const activeAlarms = document.querySelector(".activeAlarms");
 const setAlarm = document.getElementById("set");
+const toggle = document.getElementById('toggleDark');
+const body = document.querySelector('body');
 let alarmsArray = [];
 let alarmSound = new Audio("./alarm.mp3");
 let alarmasLocal =[];
@@ -29,11 +31,9 @@ function mostrarAlarmas(){
   for(i = 0; i < alarmasLocal.length;i++){
     alarma = alarmasLocal[i];
     let alarmObj = {};
-      //alarmObj.id = alarma.id;
       alarmObj.alarmHour = alarma.alarmHour;
       alarmObj.alarmMinute = alarma.alarmMinute;
       alarmObj.id =`${i+1}_${alarmObj.alarmHour}_${alarmObj.alarmMinute}`;
-      //alarmObj.id =`${alarmIndex}_${hourInput.value}_${minuteInput.value}`
       alarmObj.isActive = false;
       createAlarm(alarmObj);
   }
@@ -123,6 +123,9 @@ const createAlarm = (alarmObj) => {
   let deleteButton = document.createElement("button");
   deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
   deleteButton.classList.add("deleteButton");
+  if(toggle.classList.contains('fa-moon')){
+    deleteButton.style.setProperty("color",'black');
+  }
   deleteButton.addEventListener("click", (e) => deleteAlarm(e));
   alarmDiv.appendChild(deleteButton);
   activeAlarms.appendChild(alarmDiv);
@@ -238,8 +241,7 @@ año.innerHTML = fecha.getFullYear();
 mostrarAlarmas();
 
 //Modo oscuro
-const toggle = document.getElementById('toggleDark');
-const body = document.querySelector('body');
+
 
 var fondo = document.querySelector('.area');
 var wrapper = document.querySelector('.wrapper');
@@ -257,38 +259,33 @@ toggle.addEventListener('click', function(){
     if(this.classList.toggle('fa-sun')){
       var i = 0;
       console.log("Cambiamos a sol")
+      console.log(icono)
         fondo.style.setProperty("background-color", '#4e54c8');
         boton.style.setProperty("background-color", '#4e54c8');
         nueva.style.setProperty("background-color", '#4e54c8');
-        slide.style.setProperty("background-color", '#d2e2ff');
         slide.style.setProperty("color", '#4e54c8');
         del.style.setProperty("color", '#4e54c8');
+        icono.style.setProperty("color",'#4e54c8');
         boton.style.transition = '2s';
         nueva.style.transition = '2s';
         fondo.style.transition = '2s';
         del.style.transition = '2s';
-
-        while(i < icono.length){
-          icono[i].style.setProperty("color", '#4e54c8');
-          icono[i].style.transition = '2s';
-        }
+        icono.style.transition = '2s';
+        
     }else{
       var i = 0;
       console.log("Cambiamos a luna")
         fondo.style.background = 'black';
         nueva.style.setProperty("background-color", 'black');
         boton.style.setProperty("background-color", 'black');
-        slide.style.setProperty("background-color", '#d2e2ff');
         slide.style.setProperty("color", 'black');
-        del.style.setProperty("color", 'none');
+        del.style.setProperty("color", 'black');
+        icono.style.setProperty("color",'default');
         fondo.style.transition = '2s';
         boton.style.transition = '2s';
         slide.style.transition = '2s';
         del.style.transition = '2s';
         nueva.style.transition = '2s';
-        while(i < icono.length){
-          icono[i].style.setProperty("color", 'black');
-          icono[i].style.transition = '2s';
-        }
+        icono.style.transition = '2s';
     }
 }); 
