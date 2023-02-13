@@ -247,28 +247,48 @@ var boton  =document.getElementsByClassName('toggle')[0];
 var slide  =document.getElementsByClassName('slide')[0];
 var slidechecked = document.getElementsByClassName('.alarm input[type="checkbox"]:checked:before')[0];
 var del = document.getElementsByClassName('deleteButton')[0];
+var nueva = document.getElementsByClassName('Añadir')[0];
+var icono = document.getElementsByTagName('i');
+
+
+
 toggle.addEventListener('click', function(){
     this.classList.toggle('fa-moon');
     if(this.classList.toggle('fa-sun')){
+      var i = 0;
       console.log("Cambiamos a sol")
         fondo.style.setProperty("background-color", '#4e54c8');
         boton.style.setProperty("background-color", '#4e54c8');
+        nueva.style.setProperty("background-color", '#4e54c8');
         slide.style.setProperty("background-color", '#d2e2ff');
         slide.style.setProperty("color", '#4e54c8');
         del.style.setProperty("color", '#4e54c8');
         boton.style.transition = '2s';
+        nueva.style.transition = '2s';
         fondo.style.transition = '2s';
         del.style.transition = '2s';
+
+        while(i < icono.length){
+          icono[i].style.setProperty("color", '#4e54c8');
+          icono[i].style.transition = '2s';
+        }
     }else{
+      var i = 0;
       console.log("Cambiamos a luna")
         fondo.style.background = 'black';
+        nueva.style.setProperty("background-color", 'black');
         boton.style.setProperty("background-color", 'black');
         slide.style.setProperty("background-color", '#d2e2ff');
         slide.style.setProperty("color", 'black');
-        del.style.setProperty("color", 'black');
+        del.style.setProperty("color", 'none');
         fondo.style.transition = '2s';
         boton.style.transition = '2s';
         slide.style.transition = '2s';
         del.style.transition = '2s';
+        nueva.style.transition = '2s';
+        while(i < icono.length){
+          icono[i].style.setProperty("color", 'black');
+          icono[i].style.transition = '2s';
+        }
     }
 }); 
